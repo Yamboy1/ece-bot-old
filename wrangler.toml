@@ -1,0 +1,4 @@
+name = "ece-bot"
+main = "src/index.ts"
+compatibility_date = "2022-10-02"
+node_compat = true
