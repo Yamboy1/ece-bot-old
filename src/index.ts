@@ -2,6 +2,7 @@ import { Route, Router } from "itty-router";
 import {
   InteractionResponseType,
   InteractionType,
+  MessageComponentTypes,
   verifyKey,
 } from "discord-interactions";
 
@@ -39,6 +40,56 @@ router.post("/", async (request: Request, env: Env) => {
   if (message.type === InteractionType.PING) {
     return new JsonResponse({
       type: InteractionResponseType.PONG,
+    });
+  }
+
+  if (message.type === InteractionType.APPLICATION_COMMAND) {
+    return new JsonResponse({
+      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+      data: {
+        content: "Select your roles below: ",
+        components: [
+          {
+            type: MessageComponentTypes.ACTION_ROW,
+            components: [
+              {
+                type: MessageComponentTypes.STRING_SELECT,
+                custom_id: "select_role",
+                options: [
+                  {
+                    label: "First Pro (200 level courses)",
+                    value: "first_pro",
+                    description: "The fun is only beginning... :)",
+                    emoji: {
+                      name: "1️⃣",
+                      id: null,
+                    },
+                  },
+                  {
+                    label: "Second Pro (300 level courses)",
+                    value: "second_pro",
+                    description: "I'm impressed, you haven't dropped out... :)",
+                    emoji: {
+                      name: "2️⃣",
+                      id: null,
+                    },
+                  },
+                  {
+                    label: "Third Pro (400 level courses)",
+                    value: "third_pro",
+                    description: "You are actually a masochist... :)",
+                    emoji: {
+                      name: "3️⃣",
+                      id: null,
+                    },
+                  },
+                ],
+                placeholder: "Select your current year",
+              },
+            ],
+          },
+        ],
+      },
     });
   }
 });
